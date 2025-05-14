@@ -1,6 +1,7 @@
 from typing import List, Tuple
 import products
 
+
 class Store:
     def __init__(self, lst_products: List[products.Product]):
         """

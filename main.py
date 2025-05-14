@@ -1,5 +1,6 @@
 import products
 import store
+import sys
 
 
 def start(store_instance):
@@ -28,7 +29,7 @@ def start(store_instance):
         Please choose a number: """).strip().lower()
 
         if not choice.isdigit():
-            print("Invalid input. please enter a number between (1 and 4)")
+            print("        Invalid input. please enter a number between (1 and 4)")
             continue
 
         menu = int(choice)
@@ -36,7 +37,7 @@ def start(store_instance):
         if menu in menu_options:
             menu_options[menu](store_instance)
         elif menu == 4:
-            print("Thank you for shopping by us. Goodbye! 👋")
+            print("        Thank you for shopping by us. Goodbye! 👋")
             break
 
 
@@ -77,7 +78,7 @@ def make_order(store_instance):
 
     shopping_list = []
     while True:
-        choice = input("Please select a product number, or (leave it empty to go back): ").strip()
+        choice = input("        Please select a product number, or (leave it empty to go back): ").strip()
 
         # If there is an empty choice, it makes the user go back to the main menu.
         if not choice:
@@ -86,10 +87,12 @@ def make_order(store_instance):
         # If the choice is either a positive number or out of the product length range, it prints
         # a message to the user and starts over from the beginning.
         if not choice.isdigit() or (0 >= int(choice) <= len(all_products)):
-            print("Invalid product number.")
+            print("        Invalid product number.")
             continue
+        break
 
-        quantity = input("Please select the amount do you want or (leave it empty to go back): ").strip()
+    while True:
+        quantity = input("        Please select the amount do you want or (leave it empty to go back): ").strip()
 
         # If there is no quantity number, it breaks outside and go back to the main menu.
         if not quantity:
@@ -97,18 +100,32 @@ def make_order(store_instance):
 
         # If the quantity is not a positive number, equal or less than 0 ,it starts over again.
         if not quantity.isdigit() or int(quantity) <= 0:
-            print("Invalid quantity.")
+            print("        Invalid quantity.")
             continue
+        break
 
-        # Adds each chosen product from the previous list and subtracts from each product 1
-        shopping_list.append((all_products[int(choice) - 1], int(quantity)))
-        print("Product added to the basket!\n")
+    # Adds each chosen product from the previous list and subtracts from each product 1
+    shopping_list.append((all_products[int(choice) - 1], int(quantity)))
+    print("        ___________")
+    print("        *** Product added to the basket! ***")
 
     # If there is a shopping list, it previews the total order to the user by using the store instance parameter
     # and passing the order function from the Store class.
     if shopping_list:
         total = store_instance.order(shopping_list)
-        print(f"***The order made, Total payment: {total} $")
+        print(f"        *** The order made, Total payment: {total} $ ***")
+        print("        *** Thank you for buying from us *** ")
+        print("        ___________")
+    while True:
+        user_input = input("        Press enter to continue or q to quit: ").strip().lower()
+        if user_input == "":
+            return
+        elif user_input == 'q':
+            print("        Thank you for shopping with us. Goodbye! 👋")
+            sys.exit()
+        else:
+            print("        Please choose between enter or q to quit ...")
+            continue
 
 
 def main():
